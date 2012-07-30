@@ -1,16 +1,14 @@
 var http = require("http");
 var fs = require('fs');
 
-var path = "c:/tmp/fs/";
-var port = 85;
-
-process.on('uncaughtException', function(err) { console.error('uncaught: ' + err); });
-
 var cleanUrl = function(url) { 
-	return url.replacE(/../g, '');
+	while(url.indexOf('.').length > 0) { url = url.replace('.', ''); }
+	return url;
 };
 
-http.createServer(function (req, res) {
+console.log('**************************************');
+
+exports.handleRequest = function(port, path, req, res) {
 	var writeError = function (err, code) { 
 		console.log('writeError-->');
 		console.log('err=' + err);
@@ -28,16 +26,13 @@ http.createServer(function (req, res) {
 		console.log('writeError<--');
 	};
 
-	var parsedUrl = cleanUrl(require('url').parse(req.url));
+	var parsedUrl = require('url').parse(req.url);
 	var query = query ? {} : require('querystring').parse(parsedUrl.query);
-	console.dir(parsedUrl);
-    var url = parsedUrl.pathname;	
-	if(url.lastIndexOf('/') === url.length - 1) { url = url.slice(0, url.length - 1); }
-	if(url[0] === '/') { url = url.slice(1, url.length); }
+    var url = cleanUrl(parsedUrl.pathname);	
+	if(url.lastIndexOf('/') === url.length - 1) { url = url.slice(0, url.length ); }
+	if(url[0] === '/') { url = url.slice(1, url.length);  }
 	console.log(req.method + ' ' + req.url);
-	console.log('url=' + url);
 	var relativePath = path + url;	
-	console.log('relativePath=' + relativePath);
 	try {
 		switch(req.method) {
 			case 'GET':
@@ -135,4 +130,4 @@ http.createServer(function (req, res) {
 	} catch(err) { 
 		writeError('unhandled error: ' + err);
 	}
-}).listen(port);
+};

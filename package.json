@@ -1,0 +1,27 @@
+{
+  "name": "crud-file-server",
+  "version": "0.0.1",
+  "description": "basic file server supporting create, read, update, & delete",
+  "bin": {
+    "crud-file-server": "./bin/crud-file-server"
+  },
+  "main": "./crud-file-server.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omphalos/crud-file-server.git"
+  },
+  "keywords": [
+    "static",
+    "file",
+    "fs",
+    "http"
+  ],
+  "dependencies": {
+    "optimist": "0.3.4"
+  },
+  "license": "unlicense",
+  "engine": {
+    "node": ">=0.8.1"
+  },
+  "author": "omphalos"
+}
