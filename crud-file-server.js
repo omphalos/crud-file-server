@@ -6,8 +6,6 @@ var cleanUrl = function(url) {
 	return url;
 };
 
-console.log('**************************************');
-
 exports.handleRequest = function(port, path, req, res) {
 	var writeError = function (err, code) { 
 		console.log('writeError-->');
