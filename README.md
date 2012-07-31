@@ -1,6 +1,4 @@
-File server supporting create, read, update, and delete operations for any kind of file.
-
-This package exposes a directory to create, read, update, delete operations.
+This package exposes a directory and its children to create, read, update, and delete operations over http.
 
 Command-line usage
 ==================
