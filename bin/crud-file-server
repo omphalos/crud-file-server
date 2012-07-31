@@ -7,7 +7,7 @@ if(!argv.q) {
 	console.log('usage:');	
 	console.log('     crud-file-server [options]');
 	console.log('');
-	console.log('this starts a file server server using the specified command-line options.');
+	console.log('this starts a file server using the specified command-line options');
 	console.log('');
 	console.log('options:');
 	console.log('');
@@ -18,7 +18,7 @@ if(!argv.q) {
 }
 
 var port = argv.p || 80;
-var path = argv.f || __dirname;
+var path = argv.f || process.cwd();
 
 require('http').createServer(function (req, res) {
 	server.handleRequest(port, path, req, res);

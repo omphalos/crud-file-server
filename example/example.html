@@ -1,0 +1,123 @@
+<html>
+	<head>
+		<title>crud-file-server example</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" ></script>
+	</head>
+	<body>
+		<fieldset>
+			<p><strong>Read a file or directory</strong></p>
+			<div>
+				<label for="get" >File or directory name:</label>
+				<input type="text" id="get" /> 
+			</div>
+			<input type="button" id="get-btn" value="GET" />
+		</fieldset>
+		<script>
+			$('#get-btn').click(function() {
+				if($('#get').val()) {
+					window.open($('#get').val());
+				}
+			});
+		</script>	
+		
+		<fieldset>
+			<p><strong>Write a file</strong></p>
+			<label for="write-path" >File path:</label>
+			<input type="text" id="write-path" /> 
+			<br>
+			<label for="write-contents" >File contents:</label>
+			<input type="text" id="write-contents" /> 
+			<input type="button" id="write-btn" value="PUT" />
+			<div id="write-msg"></div>
+		</fieldset>	
+		<script>
+			$('#write-btn').click(function() {
+				if($('#write-path').val()) {
+					$.ajax({
+						type: 'PUT',
+						url: '/' + $('#write-path').val(),
+						data: $('#write-contents').val(),
+					}).done(function(data) { 
+						$('#write-msg').html('<a href="' + $('#write-path').val() + '">success</a>');		
+					}).fail(function(err) { 
+						$('#write-msg').html('failure ' + JSON.stringify(err));
+					});											
+				}
+			});
+		</script>	
+		
+		<fieldset>
+			<p><strong>Create a directory</strong></p>
+			<label for="create" >New directory name:</label>
+			<input type="text" id="create" /> 
+			<br>
+			<input type="button" id="create-btn" value="POST (create)" />
+			<div id="create-msg"></div>
+		</fieldset>
+		<script>
+			$('#create-btn').click(function() {
+				if($('#create').val()) {				
+					$.ajax({
+						type: 'POST',
+						url: '/' + $('#create').val() + '?create=directory',
+					}).done(function(data) { 
+						$('#create-msg').html('<a href="' + $('#create').val() + '">success</a>');		
+					}).fail(function(err) { 
+						$('#create-msg').html('failure ' + JSON.stringify(err));
+					});
+				}
+			});
+		</script>
+		
+		<fieldset>
+			<p><strong>Rename a file or directory</strong></p>
+			<label for="rename-old" >Old name:</label>
+			<input type="text" id="rename-old" /> 
+			<br>
+			<label for="rename-new" >New name:</label>
+			<input type="text" id="rename-new" /> 
+			<input type="button" id="rename-btn" value="POST (rename)" />
+			<div id="rename-msg"></div>
+		</fieldset>
+		<script>
+			$('#rename-btn').click(function() {
+				if($('#rename-old').val() && $('#rename-new').val()) {				
+					$.ajax({
+						type: 'POST',
+						url: '/' + $('#rename-old').val() + '?rename=/' + $('#rename-new').val()
+					}).done(function(data) { 
+						$('#rename-msg').html('<a href="' + $('#rename-new').val() + '">success</a>');		
+					}).fail(function(err) { 
+						$('#rename-msg').html('failure ' + JSON.stringify(err));
+					});
+				}
+			});
+		</script>
+		
+		<fieldset>
+			<p><strong>Delete a file or directory</strong></p>
+			<label for="delete" >File or directory name:</label>
+			<input type="text" id="delete" /> 
+			<br>
+			<input type="button" id="delete-btn" value="DELETE" />
+			<div id="delete-msg" ></div>
+		</fieldset>			
+		<script>
+			$('#delete-btn').click(function() {
+				if($('#delete').val()) {				
+					var url = $('#rename-old').val() + '?rename=' + $('#rename-new').val();
+					console.log(url);
+					$.ajax({
+						type: 'DELETE',
+						url: '/' + $('#delete').val()
+					}).done(function(data) { 
+						$('#delete-msg').html('success');		
+					}).fail(function(err) { 
+						$('#delete-msg').html('failure ' + JSON.stringify(err));
+					});
+				}
+			});
+		</script>
+	</body>
+	
+</html>
