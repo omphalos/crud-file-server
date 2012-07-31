@@ -37,7 +37,7 @@ POST http://localhost/abc.html?rename=def.html would rename abc.html to def.html
 Run the Example
 ===============
 
-For further clarification, try running the example:
+For further clarification, try running the example.
 
     npm install crud-file-server
 
