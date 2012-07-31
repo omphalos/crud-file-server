@@ -1,4 +1,4 @@
-Basic file server supporting create, read, update, &a delete
+File server supporting create, read, update, and delete operations for any kind of file.
 
 This package exposes a directory to create, read, update, delete operations.
 
