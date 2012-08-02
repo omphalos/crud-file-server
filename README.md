@@ -17,8 +17,8 @@ This starts a file server using the specified command-line options.
 Server-Side Usage
 =================
 
-	require('http-proxy').createServer(function (req, res, proxy) {
-		require('subproxy').handleRequest(subProxyHost, port, req, res, proxy);
+	require('http').createServer(function (req, res) {
+		server.handleRequest(port, path, req, res);
 	}).listen(port);
 	
 Supported operations
