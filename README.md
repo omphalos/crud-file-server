@@ -30,9 +30,9 @@ Supported operations
 
 **POST** supports two operations, rename and create directory.  
 
-**POST** http://localhost/newDir?create=directory would create a directory named newDir.  
+**POST** http://localhost/newDir**?create=directory** would create a directory named newDir.  
 
-**POST** http://localhost/abc.html?rename=def.html would rename abc.html to def.html.
+**POST** http://localhost/abc.html**?rename=def.html** would rename abc.html to def.html.
 
 Run the Example
 ===============
