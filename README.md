@@ -15,8 +15,10 @@ This starts a file server using the specified command-line options.
 Server-Side Usage
 =================
 
+        var port = 80;
+        var path = '';
 	require('http').createServer(function (req, res) {
-		require('curd-file-server').handleRequest(port, path, req, res);
+		require('crud-file-server').handleRequest(port, path, req, res);
 	}).listen(port);
 	
 Supported operations
