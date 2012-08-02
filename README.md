@@ -16,7 +16,7 @@ Server-Side Usage
 =================
 
 	require('http').createServer(function (req, res) {
-		server.handleRequest(port, path, req, res);
+		require('curd-file-server').handleRequest(port, path, req, res);
 	}).listen(port);
 	
 Supported operations
