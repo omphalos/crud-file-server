@@ -7,10 +7,15 @@ Command-line usage
 
 This starts a file server using the specified command-line options.
 
-	-f file system path to expose over http
-	-p port to listen on (example, 85)
-	-q suppress the help message
+    -f file system path to expose over http
+    -p port to listen on (example, 80)
+    -v virtual path to host the file server on
+    -q suppress this message
+	
+Example:
 
+    crud-file-server -f c:/ -p 8080 -v filez -q
+	
 
 Server-Side Usage
 =================

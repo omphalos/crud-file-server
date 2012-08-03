@@ -18,7 +18,7 @@ if(!argv.q) {
 	console.log('');
 	console.log('example:');
 	console.log('');
-	console.log('  crud-file-server -f c:\tmp -p 8080 -v filez -q');
+	console.log('  crud-file-server -f c:/ -p 8080 -v filez -q');
 	console.log('');
 }
 
