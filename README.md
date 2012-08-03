@@ -1,6 +1,4 @@
-Basic file server supporting create, read, update, &a delete
-
-This package exposes a directory to create, read, update, delete operations.
+This package exposes a directory and its children to create, read, update, and delete operations over http.
 
 Command-line usage
 ==================
@@ -17,9 +15,11 @@ This starts a file server using the specified command-line options.
 Server-Side Usage
 =================
 
-	require('http').createServer(function (req, res) {
-		server.handleRequest(port, path, req, res);
-	}).listen(port);
+    var port = 80;
+    var path = '';
+    require('http').createServer(function (req, res) {
+        require('crud-file-server').handleRequest(port, path, req, res);
+    }).listen(port);
 	
 Supported operations
 ====================
@@ -32,14 +32,14 @@ Supported operations
 
 **POST** supports two operations, rename and create directory.  
 
-POST http://localhost/newDir?create=directory would create a directory named newDir.  
+**POST** http://localhost/newDir**?create=directory** would create a directory named newDir.  
 
-POST http://localhost/abc.html?rename=def.html would rename abc.html to def.html.
+**POST** http://localhost/abc.html**?rename=def.html** would rename abc.html to def.html.
 
 Run the Example
 ===============
 
-For further clarification, try running the example:
+For further clarification, try running the example.
 
     npm install crud-file-server
 
