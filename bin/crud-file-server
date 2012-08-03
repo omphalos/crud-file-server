@@ -5,24 +5,30 @@ var server = require('../crud-file-server');
 
 if(!argv.q) {
 	console.log('usage:');	
-	console.log('     crud-file-server [options]');
+	console.log('  crud-file-server [options]');
 	console.log('');
 	console.log('this starts a file server using the specified command-line options');
 	console.log('');
 	console.log('options:');
 	console.log('');
-	console.log('	-f file system path to expose over http');
-	console.log('	-p port to listen on (example, 80)');
-	console.log('	-q suppress this message');
+	console.log('  -f file system path to expose over http');
+	console.log('  -p port to listen on (example, 80)');
+	console.log('  -v virtual path to host the file server on');
+	console.log('  -q suppress this message');
+	console.log('');
+	console.log('example:');
+	console.log('');
+	console.log('  crud-file-server -f c:\tmp -p 8080 -v filez -q');
 	console.log('');
 }
 
-var port = argv.p || 80;
-var path = argv.f || process.cwd();
+var port  = argv.p || 80;
+var path  = argv.f || process.cwd();
+var vpath = argv.v || '';
 
 require('http').createServer(function (req, res) {
-	server.handleRequest(port, path, req, res);
+	server.handleRequest(vpath, path, req, res);
 }).listen(port);
 
 console.log('server started');
-console.log('listening on port ' + port + ', serving directory ' + path);
+console.log('listening on ' + vpath + ':' + port + ', serving directory ' + path);

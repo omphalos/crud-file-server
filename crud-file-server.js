@@ -10,10 +10,12 @@ var cleanUrl = function(url) {
 /*  
 example usage:
 	require('http').createServer(function (req, res) {
-		server.handleRequest(port, path, req, res);
+		server.handleRequest(port, path, req, res, vpath);
 	}).listen(port);
 */
-exports.handleRequest = function(port, path, req, res) {	
+exports.handleRequest = function(vpath, path, req, res) {	
+	// vpath: (optional) virtual path to host in the url
+	// path: the file system path to serve
 
 	// our error handler
 	var writeError = function (err, code) { 
@@ -33,15 +35,26 @@ exports.handleRequest = function(port, path, req, res) {
 	};
 
 	if(path.lastIndexOf('/') !== path.length - 1) { path += '/'; } // make sure path ends with a slash	
-	var parsedUrl = require('url').parse(req.url);
+	var parsedUrl = require('url').parse(req.url);	
 	var query = query ? {} : require('querystring').parse(parsedUrl.query);
-    var url = cleanUrl(parsedUrl.pathname);		
+    var url = cleanUrl(parsedUrl.pathname);
+	
 	// normalize the url such that there is no trailing or leading slash /
 	if(url.lastIndexOf('/') === url.length - 1) { url = url.slice(0, url.length ); }
 	if(url[0] === '/') { url = url.slice(1, url.length);  }
+
+	// check that url begins with vpath
+	if(vpath && url.indexOf(vpath + '/') != 0) {
+		console.log('url does not begin with vpath');
+		throw 'url [' + url + '] does not begin with vpath [' + vpath + ']';
+	}
 	
 	console.log(req.method + ' ' + req.url);
-	var relativePath = path + url;	
+	var relativePath = vpath ?
+		path + url.slice(vpath.length + 1, url.length):
+		path + url;	
+	console.log('relativePath: ' + relativePath);
+	
 	try {
 		switch(req.method) {
 			case 'GET': // returns file or directory contents
@@ -96,6 +109,13 @@ exports.handleRequest = function(port, path, req, res) {
 				if(query.rename) { // rename a file or directory
 					// e.g., http://localhost/old-name.html?rename=new-name.html
 					query.rename = cleanUrl(query.rename);
+					if(vpath) {
+						if(query.rename.indexOf('/' + vpath + '/') == 0) { 
+							query.rename = query.rename.slice(vpath.length + 2, query.rename.length);
+						} else {
+							throw 'renamed url [' + query.rename + '] does not begin with vpath [' + vpath + ']';
+						}
+					} 
 					console.log('renaming ' + relativePath + ' to ' + path + query.rename);
 					fs.rename(relativePath, path + query.rename, function(err) {
 						if(err) { writeError(err); } 
