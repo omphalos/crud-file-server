@@ -19,10 +19,7 @@ exports.handleRequest = function(vpath, path, req, res) {
 
 	// our error handler
 	var writeError = function (err, code) { 
-		console.log('err=' + err);
-		console.log('code=' + code);
 		code = code || 500;
-		console.log('code1=' + code);
 		console.log('Error ' + code + ': ' + err);
 		// write the error to the response, if possible
 		try {			
