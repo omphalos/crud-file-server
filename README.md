@@ -9,9 +9,9 @@ Command-line usage
 
 This starts a file server using the specified command-line options.
 
-	-f: file system path to expose over http
-	-p: port to listen on (example, 85)
-	-q: suppress the help message
+	-f file system path to expose over http
+	-p port to listen on (example, 85)
+	-q suppress the help message
 
 
 Server-Side Usage

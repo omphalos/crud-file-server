@@ -11,9 +11,9 @@ if(!argv.q) {
 	console.log('');
 	console.log('options:');
 	console.log('');
-	console.log('	-f: file system path to expose over http');
-	console.log('	-p: port to listen on (example, 80)');
-	console.log('	-q: suppress this message');
+	console.log('	-f file system path to expose over http');
+	console.log('	-p port to listen on (example, 80)');
+	console.log('	-q suppress this message');
 	console.log('');
 }
 
