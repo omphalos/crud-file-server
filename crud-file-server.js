@@ -59,6 +59,15 @@ exports.handleRequest = function(vpath, path, req, res, readOnly) {
 		} else {
 			switch(req.method) {
 				case 'HEAD':
+					fs.stat(relativePath, function(err, stats) { // determine if the resource is a file or directory
+						if(err) { writeError(err); } 
+						else {						
+							res.setHeader('Last-Modified', stats.mtime);							
+							res.setHeader('Content-Type', stats.isDirectory() ? 'application/json' : 'text/html');
+							res.end();							
+						}
+					});
+					break;
 				case 'GET': // returns file or directory contents
 					if(url === 'favicon.ico') { 	
 						res.end(); // if the browser requests favicon, just return an empty response
@@ -72,10 +81,9 @@ exports.handleRequest = function(vpath, path, req, res, readOnly) {
 									fs.readdir(relativePath, function(err, files) {
 										if(err) { writeError(err); }
 										else {
+											res.setHeader('Last-Modified', stats.mtime);							
 											res.setHeader('Content-Type', 'application/json');
-											if(req.method != 'HEAD') { 
-												res.write(JSON.stringify(files)); 
-											}
+											res.write(JSON.stringify(files)); 
 											res.end();
 										}
 									});
@@ -83,16 +91,14 @@ exports.handleRequest = function(vpath, path, req, res, readOnly) {
 									// if it's a file, return the contents of a file with the correct content type
 									console.log('reading file ' + relativePath);
 									var type = require('mime').lookup(relativePath);
+									res.setHeader('Last-Modified', stats.mtime);							
 									res.setHeader('Content-Type', type);
-									if(req.method == 'HEAD') { res.end(); }
-									else {
-										fs.readFile(relativePath, function(err, data) { 
-											if(err) { writeError(err); }
-											else {
-												res.end(data); 
-											}
-										});
-									}
+									fs.readFile(relativePath, function(err, data) { 
+										if(err) { writeError(err); }
+										else {
+											res.end(data); 
+										}
+									});
 								}
 							}
 						});

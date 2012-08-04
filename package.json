@@ -1,6 +1,6 @@
 {
   "name": "crud-file-server",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "file server supporting basic create, read, update, & delete for any kind of file",
   "bin": {
     "crud-file-server": "./bin/crud-file-server"
