@@ -24,11 +24,11 @@ if(!argv.q) {
 
 var port  = argv.p || 80;
 var path  = argv.f || process.cwd();
-var vpath = argv.v || '';
+var vpath = (argv.v || '').trimLeft();
 
 require('http').createServer(function (req, res) {
 	server.handleRequest(vpath, path, req, res);
 }).listen(port);
 
 console.log('server started');
-console.log('listening on ' + vpath + ':' + port + ', serving directory ' + path);
+console.log('listening on :' + port + '/' + vpath + ', serving ' + path);
