@@ -51,7 +51,6 @@ exports.handleRequest = function(vpath, path, req, res, readOnly) {
 	var relativePath = vpath ?
 		path + url.slice(vpath.length + 1, url.length):
 		path + url;	
-	console.log('relativePath: ' + relativePath);
 	
 	try {
 		if(readOnly && req.method != 'GET') {
@@ -59,6 +58,7 @@ exports.handleRequest = function(vpath, path, req, res, readOnly) {
 		} else {
 			switch(req.method) {
 				case 'HEAD':
+					// console.log('head: ' + relativePath);				
 					fs.stat(relativePath, function(err, stats) { // determine if the resource is a file or directory
 						if(err) { writeError(err); } 
 						else {						
@@ -69,6 +69,7 @@ exports.handleRequest = function(vpath, path, req, res, readOnly) {
 					});
 					break;
 				case 'GET': // returns file or directory contents
+					console.log('relativePath: ' + relativePath);
 					if(url === 'favicon.ico') { 	
 						res.end(); // if the browser requests favicon, just return an empty response
 					} else {
@@ -121,6 +122,7 @@ exports.handleRequest = function(vpath, path, req, res, readOnly) {
 					return;
 				case 'POST': // create a directory or rename a file or directory
 					if(query.rename) { // rename a file or directory
+						console.log('rename: ' + relativePath);
 						// e.g., http://localhost/old-name.html?rename=new-name.html
 						query.rename = cleanUrl(query.rename);
 						if(vpath) { 
@@ -147,6 +149,7 @@ exports.handleRequest = function(vpath, path, req, res, readOnly) {
 							}
 						});
 					} else {
+						console.log('relativePath: ' + relativePath);
 						writeError('valid queries are ' + url + '?rename=[new name] or ' + url + '?create=directory');
 					}
 					return;
@@ -171,6 +174,7 @@ exports.handleRequest = function(vpath, path, req, res, readOnly) {
 					});			
 					return;
 				default: // unsupported method! tell the client ...
+					console.log('unsupported: ' + relativePath);				
 					writeError('Method ' + method + ' not allowed', 405);
 					return;
 			}
