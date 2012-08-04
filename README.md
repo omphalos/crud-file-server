@@ -1,3 +1,6 @@
+crud-file-server
+================
+
 This package exposes a directory and its children to create, read, update, and delete operations over http.
 
 Command-line usage
@@ -14,8 +17,7 @@ This starts a file server using the specified command-line options.
 	
 Example:
 
-    crud-file-server -f c:/ -p 8080 -v filez -q
-	
+    crud-file-server -f c:/ -p 8080 -v filez -q	
 
 Server-Side Usage
 =================
@@ -52,7 +54,7 @@ Navigate to the example directory (which should now be under node_modules/crud-f
 
 	cd node_modules/crud-file-server/example
 
-Run crud-file-server to host this directory. 
+Run crud-file-server to host the current directory. 
 
     crud-file-server -p 3300
     	
