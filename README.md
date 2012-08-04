@@ -12,8 +12,9 @@ This starts a file server using the specified command-line options.
 
     -f file system path to expose over http
     -p port to listen on (example, 80)
-    -v virtual path to host the file server on
     -q suppress this message
+	-r read only
+    -v virtual path to host the file server on	
 	
 Example:
 

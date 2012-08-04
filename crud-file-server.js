@@ -58,6 +58,7 @@ exports.handleRequest = function(vpath, path, req, res, readOnly) {
 			writeError(req.method + ' forbidden on this resource', 403);
 		} else {
 			switch(req.method) {
+				case 'HEAD':
 				case 'GET': // returns file or directory contents
 					if(url === 'favicon.ico') { 	
 						res.end(); // if the browser requests favicon, just return an empty response
@@ -72,7 +73,10 @@ exports.handleRequest = function(vpath, path, req, res, readOnly) {
 										if(err) { writeError(err); }
 										else {
 											res.setHeader('Content-Type', 'application/json');
-											res.end(JSON.stringify(files));
+											if(req.method != 'HEAD') { 
+												res.write(JSON.stringify(files)); 
+											}
+											res.end();
 										}
 									});
 								} else {
@@ -80,12 +84,15 @@ exports.handleRequest = function(vpath, path, req, res, readOnly) {
 									console.log('reading file ' + relativePath);
 									var type = require('mime').lookup(relativePath);
 									res.setHeader('Content-Type', type);
-									fs.readFile(relativePath, function(err, data) { 
-										if(err) { writeError(err); }
-										else {
-											res.end(data); 
-										}
-									});
+									if(req.method == 'HEAD') { res.end(); }
+									else {
+										fs.readFile(relativePath, function(err, data) { 
+											if(err) { writeError(err); }
+											else {
+												res.end(data); 
+											}
+										});
+									}
 								}
 							}
 						});

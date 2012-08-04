@@ -13,8 +13,9 @@ if(!argv.q) {
 	console.log('');
 	console.log('  -f file system path to expose over http');
 	console.log('  -p port to listen on (example, 80)');
-	console.log('  -v virtual path to host the file server on');
 	console.log('  -q suppress this message');
+	console.log('  -r read only');
+	console.log('  -v virtual path to host the file server on');
 	console.log('');
 	console.log('example:');
 	console.log('');
@@ -25,10 +26,10 @@ if(!argv.q) {
 var port  = argv.p || 80;
 var path  = argv.f || process.cwd();
 var vpath = (argv.v || '').trimLeft();
+var readOnly = argv.v;
 
 require('http').createServer(function (req, res) {
 	server.handleRequest(vpath, path, req, res);
 }).listen(port);
 
-console.log('server started');
 console.log('listening on :' + port + '/' + vpath + ', serving ' + path);
