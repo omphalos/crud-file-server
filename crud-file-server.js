@@ -47,7 +47,9 @@ exports.handleRequest = function(vpath, path, req, res, readOnly) {
 		throw 'url [' + url + '] does not begin with vpath [' + vpath + ']';
 	}
 	
-	console.log(req.method + ' ' + req.url);
+	if(req.method != 'HEAD') {
+		console.log(req.method + ' ' + req.url);
+	}
 	var relativePath = vpath ?
 		path + url.slice(vpath.length + 1, url.length):
 		path + url;	
