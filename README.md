@@ -11,6 +11,7 @@ Command-line usage
 This starts a file server using the specified command-line options.
 
     -f file system path to expose over http
+	-h log head requests
     -p port to listen on (example, 80)
     -q suppress this message
 	-r read only

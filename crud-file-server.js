@@ -13,7 +13,7 @@ example usage:
 		server.handleRequest(port, path, req, res, vpath);
 	}).listen(port);
 */
-exports.handleRequest = function(vpath, path, req, res, readOnly) {	
+exports.handleRequest = function(vpath, path, req, res, readOnly, logHeadRequests) {	
 	// vpath: (optional) virtual path to host in the url
 	// path: the file system path to serve
 	// readOnly: whether to allow modifications to the file
@@ -60,7 +60,9 @@ exports.handleRequest = function(vpath, path, req, res, readOnly) {
 		} else {
 			switch(req.method) {
 				case 'HEAD':
-					// console.log('head: ' + relativePath);				
+					if(logHeadRequests) {
+						console.log('head: ' + relativePath);				
+					}
 					fs.stat(relativePath, function(err, stats) { // determine if the resource is a file or directory
 						if(err) { writeError(err); } 
 						else {						
