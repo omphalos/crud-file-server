@@ -66,8 +66,13 @@ exports.handleRequest = function(vpath, path, req, res, readOnly, logHeadRequest
 					fs.stat(relativePath, function(err, stats) { // determine if the resource is a file or directory
 						if(err) { writeError(err); } 
 						else {						
-							res.setHeader('Last-Modified', stats.mtime);							
-							res.setHeader('Content-Type', stats.isDirectory() ? 'application/json' : 'text/html');
+							res.setHeader('Last-Modified', stats.mtime);		
+							if(stats.isDirectory()) {								
+								res.setHeader('Content-Type', query.dir == 'json' ? 'application/json' : 'text/html');
+							} else {
+								var type = require('mime').lookup(relativePath);
+								res.setHeader('Content-Type', type);
+							}
 							res.end();							
 						}
 					});
