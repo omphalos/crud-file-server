@@ -115,7 +115,9 @@ exports.handleRequest = function(vpath, path, req, res, readOnly) {
 														res.setHeader('Content-Type', 'text/html');											
 														res.write('<html><body>');
 														for(var f = 0; f < results.length; f++) {
-															res.write('<p><a href="/' + url + '/' + results[f].name + '">' + results[f].name + '</a></p>');
+															var name = results[f].name;
+															var normalized = url + '/' + (name.indexOf('//') == 0 ? name.slice(1, results.length) : name);
+															res.write('<p><a href="/' + normalized + '">' + name + '</a></p>');
 														}
 														res.end('</body></html>');
 													}
