@@ -32,7 +32,9 @@ Server-Side Usage
 Supported operations
 ====================
 
-**GET** returns a file's contents with the correct mime type, or else the contents of a directory as a JSON array.
+**GET** returns a file's contents with the correct mime type, or else the contents of a directory as html.
+
+**GET** http://localhost?dir=json returns directories as json instead of html.
 
 **PUT** can be used to write a file.
 
