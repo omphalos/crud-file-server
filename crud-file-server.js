@@ -123,9 +123,9 @@ exports.handleRequest = function(vpath, path, req, res, readOnly, logHeadRequest
 														res.write('<html><body>');
 														for(var f = 0; f < results.length; f++) {
 															var name = results[f].name;
-															var normalized = url + '/' + (name.indexOf('/') == 0 ? name.slice(1, results.length) : name);
-															console.log('*' + normalized);
-															res.write('\r\n<p><a href="' + normalized + '">' + name + '</a></p>');
+															var normalized = url + '/' + name;
+															while(normalized[0] == '/') { normalized = normalized.slice(1, normalized.length); }
+															res.write('\r\n<p><a href="/' + normalized + '">' + name + '</a></p>');
 														}
 														res.end('\r\n</body></html>');
 													}
