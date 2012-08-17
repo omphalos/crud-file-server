@@ -143,7 +143,10 @@ exports.handleRequest = function(vpath, path, req, res, readOnly, logHeadRequest
 										fs.readFile(relativePath, function(err, data) { 
 											if(err) { writeError(err); }
 											else {
-												res.end(JSON.stringify({ data: data.toString() })); 
+												res.end(JSON.stringify({ 
+													data: data.toString(),
+													type: require('mime').lookup(relativePath),
+												})); 
 											}
 										});
 									} else {
