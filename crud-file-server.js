@@ -50,7 +50,7 @@ exports.handleRequest = function(vpath, path, req, res, readOnly, logHeadRequest
 	if(req.method != 'HEAD') {
 		console.log(req.method + ' ' + req.url);
 	}
-	var relativePath = vpath ?
+	var relativePath = vpath && url.indexOf(vpath) == 0 ?
 		path + url.slice(vpath.length + 1, url.length):
 		path + url;	
 	
@@ -65,12 +65,12 @@ exports.handleRequest = function(vpath, path, req, res, readOnly, logHeadRequest
 					}
 					fs.stat(relativePath, function(err, stats) { // determine if the resource is a file or directory
 						if(err) { writeError(err); } 
-						else {						
+						else {					
 							res.setHeader('Last-Modified', stats.mtime);		
 							if(stats.isDirectory()) {								
-								res.setHeader('Content-Type', query.dir == 'json' ? 'application/json' : 'text/html');
+								res.setHeader('Content-Type', query.type == 'json' || query.dir == 'json' ? 'application/json' : 'text/html');
 							} else {
-								var type = require('mime').lookup(relativePath);
+								var type = query.type == 'json' || query.dir == 'json' ? 'application/json' : require('mime').lookup(relativePath);
 								res.setHeader('Content-Type', type);
 							}
 							res.end();							
@@ -137,14 +137,25 @@ exports.handleRequest = function(vpath, path, req, res, readOnly, logHeadRequest
 								} else {
 									// if it's a file, return the contents of a file with the correct content type
 									console.log('reading file ' + relativePath);
-									var type = require('mime').lookup(relativePath);
-									res.setHeader('Content-Type', type);
-									fs.readFile(relativePath, function(err, data) { 
-										if(err) { writeError(err); }
-										else {
-											res.end(data); 
-										}
-									});
+									if(query.type == 'json' || query.dir == 'json') {										
+										var type = 'application/json';
+										res.setHeader('Content-Type', type);
+										fs.readFile(relativePath, function(err, data) { 
+											if(err) { writeError(err); }
+											else {
+												res.end(JSON.stringify({ data: data.toString() })); 
+											}
+										});
+									} else {
+										var type = require('mime').lookup(relativePath);
+										res.setHeader('Content-Type', type);
+										fs.readFile(relativePath, function(err, data) { 
+											if(err) { writeError(err); }
+											else {
+												res.end(data); 
+											}
+										});
+									}
 								}
 							}
 						});
@@ -170,6 +181,7 @@ exports.handleRequest = function(vpath, path, req, res, readOnly, logHeadRequest
 						console.log('rename: ' + relativePath);
 						// e.g., http://localhost/old-name.html?rename=new-name.html
 						query.rename = cleanUrl(query.rename);
+						// TODO: handle missing vpath here
 						if(vpath) { 
 							if(query.rename.indexOf('/' + vpath + '/') == 0) { 
 								query.rename = query.rename.slice(vpath.length + 2, query.rename.length);
