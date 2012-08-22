@@ -42,7 +42,7 @@ if(argv.m) {
 }
 
 require('http').createServer(function (req, res) {
-	server.handleRequest(vpath, path, req, res, fayeServer, readOnly, logHeadRequests);
+	server.handleRequest(vpath, path, req, res, publish, readOnly, logHeadRequests);
 }).listen(port);
 
 console.log('listening on :' + port + '/' + vpath + ', serving ' + path);
