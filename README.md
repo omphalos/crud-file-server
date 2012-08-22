@@ -59,8 +59,3 @@ Run crud-file-server to host the current directory.
     	
 Now use your browser to navigate to http://localhost:3300/example.html.  
 You will see a simple client that lets you interact with your file system from the web browser.
-
-
-    
-
-
