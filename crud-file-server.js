@@ -1,5 +1,6 @@
 var http = require("http");
 var fs = require('fs');
+var faye = require('faye');
 
 // don't let users crawl up the folder structure by using a/../../../c/d
 var cleanUrl = function(url) { 
@@ -13,7 +14,7 @@ example usage:
 		server.handleRequest(port, path, req, res, vpath);
 	}).listen(port);
 */
-exports.handleRequest = function(vpath, path, req, res, readOnly, logHeadRequests) {	
+exports.handleRequest = function(vpath, path, req, res, publish, readOnly, logHeadRequests) {	
 	// vpath: (optional) virtual path to host in the url
 	// path: the file system path to serve
 	// readOnly: whether to allow modifications to the file
@@ -46,7 +47,7 @@ exports.handleRequest = function(vpath, path, req, res, readOnly, logHeadRequest
 		console.log('url does not begin with vpath');
 		throw 'url [' + url + '] does not begin with vpath [' + vpath + ']';
 	}
-	
+
 	if(req.method != 'HEAD') {
 		console.log(req.method + ' ' + req.url);
 	}
@@ -171,7 +172,8 @@ exports.handleRequest = function(vpath, path, req, res, readOnly, logHeadRequest
 					req.pipe(stream); // TODO: limit data length
 					req.on('end', function() {				
 						if(stream.ok) {
-							res.end();					
+							res.end();
+							publish({ set: relativePath });
 						}
 					});
 					stream.on('error', function(err) { 										
@@ -197,6 +199,7 @@ exports.handleRequest = function(vpath, path, req, res, readOnly, logHeadRequest
 							if(err) { writeError(err); } 
 							else {
 								res.end();
+								publish({ remove: relativePath, set: query.rename });
 							}
 						});
 					} else if(query.create == 'directory') { // rename a directory
@@ -206,6 +209,7 @@ exports.handleRequest = function(vpath, path, req, res, readOnly, logHeadRequest
 							if(err) { writeError(err); } 
 							else {
 								res.end();
+								publish({ set: query.relativePath });
 							}
 						});
 					} else {
@@ -221,13 +225,19 @@ exports.handleRequest = function(vpath, path, req, res, readOnly, logHeadRequest
 								console.log('deleting directory ' + relativePath);
 								fs.rmdir(relativePath, function(err) {
 									if(err) { writeError(err); }
-									else { res.end(); }
+									else { 
+										res.end(); 
+										publish({ remove: relativePath });
+									}
 								});
 							} else { // delete a file
 								console.log('deleting file ' + relativePath);
 								fs.unlink(relativePath, function(err) {
 									if(err) { writeError(err); }
-									else { res.end(); }
+									else { 
+										res.end(); 
+										publish({ remove: relativePath });
+									}
 								});
 							}
 						}

@@ -2,6 +2,7 @@ crud-file-server
 ================
 
 This package exposes a directory and its children to create, read, update, and delete operations over http.
+Additionally, it supports change notification over faye.
 
 Command-line usage
 ==================
@@ -12,6 +13,7 @@ This starts a file server using the specified command-line options.
 
     -f file system path to expose over http
 	-h log head requests
+	-m vpath to use the mount the faye server (omit to disable publication)
     -p port to listen on (example, 80)
     -q suppress this message
 	-r read only
@@ -19,23 +21,16 @@ This starts a file server using the specified command-line options.
 	
 Example:
 
-    crud-file-server -f c:/ -p 8080 -v filez -q	
+    crud-file-server -f c:/ -p 8080 -q -m /faye -v filez	
 
-Server-Side Usage
-=================
-
-    var port = 80;
-    var path = '';
-    require('http').createServer(function (req, res) {
-        require('crud-file-server').handleRequest(port, path, req, res);
-    }).listen(port);
-	
 Supported operations
 ====================
 
 **GET** returns a file's contents with the correct mime type, or else the contents of a directory as html.
 
 **GET** http://localhost?dir=json returns directories as json instead of html.
+
+**HEAD** is the same as a GET, omitting the body.
 
 **PUT** can be used to write a file.
 
