@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/omphalos/crud-file-server.png)](http://travis-ci.org/omphalos/crud-file-server)
 crud-file-server
 ================
 
