@@ -29,7 +29,7 @@ Supported operations
 
 **GET** returns a file's contents with the correct mime type, or else the contents of a directory as html.
 
-**GET** http://localhost?dir=json returns directories as json instead of html.
+**GET** http://localhost?type=json formats content as json instead of the default type.  This works for directories and files.
 
 **HEAD** is the same as a GET, omitting the body.
 
@@ -39,9 +39,9 @@ Supported operations
 
 **POST** supports two operations, rename and create directory.  
 
-**POST** http://localhost/newDir**?create=directory** would create a directory named newDir.  
+**POST** http://localhost/newDir?create=directory would create a directory named newDir.  
 
-**POST** http://localhost/abc.html**?rename=def.html** would rename abc.html to def.html.
+**POST** http://localhost/abc.html?rename=def.html would rename abc.html to def.html.
 
 Run the Example
 ===============
