@@ -13,7 +13,7 @@ This starts a file server using the specified command-line options.
 
     -f file system path to expose over http
 	-h log head requests
-	-m vpath to use the mount the faye server (omit to disable publication)
+	-m vpath to use to mount the faye server (omit to disable publication)
     -p port to listen on (example, 80)
     -q suppress this message
 	-r read only
