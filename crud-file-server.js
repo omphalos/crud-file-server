@@ -71,8 +71,14 @@ exports.handleRequest = function(vpath, path, req, res, publish, readOnly, logHe
 							if(stats.isDirectory()) {								
 								res.setHeader('Content-Type', query.type == 'json' || query.dir == 'json' ? 'application/json' : 'text/html');
 							} else {
-								var type = query.type == 'json' || query.dir == 'json' ? 'application/json' : require('mime').lookup(relativePath);
-								res.setHeader('Content-Type', type);
+								if(query.type == 'json' || query.dir == 'json') {
+									res.setHeader('Content-Type', 'application/json');
+								}
+								else {
+									var type = require('mime').lookup(relativePath);
+									res.setHeader('Content-Type', type);
+									res.setHeader('Content-Length', stats.size);
+								}
 							}
 							res.end();							
 						}
@@ -138,7 +144,7 @@ exports.handleRequest = function(vpath, path, req, res, publish, readOnly, logHe
 								} else {
 									// if it's a file, return the contents of a file with the correct content type
 									console.log('reading file ' + relativePath);
-									if(query.type == 'json' || query.dir == 'json') {										
+									if(query.type == 'json' || query.dir == 'json') {
 										var type = 'application/json';
 										res.setHeader('Content-Type', type);
 										fs.readFile(relativePath, function(err, data) { 
@@ -156,6 +162,7 @@ exports.handleRequest = function(vpath, path, req, res, publish, readOnly, logHe
 										fs.readFile(relativePath, function(err, data) { 
 											if(err) { writeError(err); }
 											else {
+												res.setHeader('Content-Length', data.length);
 												res.end(data); 
 											}
 										});
