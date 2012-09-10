@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var argv = require('optimist').argv;
-var server = require('../crud-file-server');
+var server = require('../server/crud-file-server');
 
 if(!argv.q) {
 	console.log('usage:');	
