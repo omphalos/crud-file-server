@@ -24,14 +24,17 @@ if(!argv.q) {
 	console.log('');
 }
 
-var port  = argv.p || 80;
-var path  = argv.f || process.cwd();
-var vpath = (argv.v || '').trimLeft();
-var readOnly = argv.v;
-var logHeadRequests = argv.h;
+var options = {
+    port: argv.p,
+    path: argv.f,
+    vpath: argv.v,
+    readOnly: argv.r,
+    logHeadRequests: argv.h,
+};
 
 require('http').createServer(function (req, res) {
-	server.handleRequest(vpath, path, req, res, publish, readOnly, logHeadRequests);
+	server.handleRequest(req, res, options);
 }).listen(port);
 
 console.log('listening on :' + port + '/' + vpath + ', serving ' + path);
+
