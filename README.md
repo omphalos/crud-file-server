@@ -14,7 +14,6 @@ This starts a file server using the specified command-line options.
 
     -f file system path to expose over http
 	-h log head requests
-	-m vpath to use to mount the faye server (omit to disable publication)
     -p port to listen on (example, 80)
     -q suppress this message
 	-r read only
@@ -22,7 +21,7 @@ This starts a file server using the specified command-line options.
 	
 Example:
 
-    crud-file-server -f c:/ -p 8080 -q -m /faye -v filez	
+    crud-file-server -f c:/ -p 8080 -q -v filez	
 
 Supported operations
 ====================

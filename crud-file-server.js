@@ -1,6 +1,4 @@
-var http = require("http");
 var fs = require('fs');
-var faye = require('faye');
 
 // don't let users crawl up the folder structure by using a/../../../c/d
 var cleanUrl = function(url) { 

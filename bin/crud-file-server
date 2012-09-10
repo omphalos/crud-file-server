@@ -13,7 +13,6 @@ if(!argv.q) {
 	console.log('');
 	console.log('  -f file system path to expose over http');
 	console.log('  -h log head requests');	
-	console.log('  -m vpath to use the mount the faye server (omit to disable publication)');
 	console.log('  -p port to listen on (example, 80)');
 	console.log('  -q suppress this message');
 	console.log('  -r read only');
@@ -21,7 +20,7 @@ if(!argv.q) {
 	console.log('');
 	console.log('example:');
 	console.log('');
-	console.log('  crud-file-server -f c:/ -p 8080 -q -m /faye -v filez');
+	console.log('  crud-file-server -f c:/ -p 8080 -q -v filez');
 	console.log('');
 }
 
@@ -30,16 +29,6 @@ var path  = argv.f || process.cwd();
 var vpath = (argv.v || '').trimLeft();
 var readOnly = argv.v;
 var logHeadRequests = argv.h;
-var publish = function() {};
-if(argv.m) {
-	var faye = require('faye');
-	var server = new faye.NodeAdapter({mount: argv.m});
-	console.log('faye server listening on ' + argv.p);
-	server.listen(argv.p);
-	publish = function(message) { 
-		server.publish('/', message);
-	};
-}
 
 require('http').createServer(function (req, res) {
 	server.handleRequest(vpath, path, req, res, publish, readOnly, logHeadRequests);
