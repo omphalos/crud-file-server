@@ -1,0 +1,1 @@
+{"ts":1347500018028,"silentsave":true,"restoring":false,"patch":[[{"diffs":[[1,"// don't let users crawl up the folder structure by using a/../../../c/d\r\nexports.cleanUrl = function(url) { \r\n    while(url.indexOf('..').length > 0) { url = url.replace('..', ''); }\r\n\treturn url;\r\n};\r\n"]],"start1":0,"start2":0,"length1":0,"length2":203}]],"length":203}
