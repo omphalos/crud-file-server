@@ -31,7 +31,7 @@ var readOnly = argv.v;
 var logHeadRequests = argv.h;
 
 require('http').createServer(function (req, res) {
-	server.handleRequest(vpath, path, req, res, publish, readOnly, logHeadRequests);
+	server.handleRequest(vpath, path, req, res, readOnly, logHeadRequests);
 }).listen(port);
 
 console.log('listening on :' + port + '/' + vpath + ', serving ' + path);
