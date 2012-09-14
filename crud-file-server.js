@@ -12,7 +12,7 @@ example usage:
 		server.handleRequest(port, path, req, res, vpath);
 	}).listen(port);
 */
-exports.handleRequest = function(vpath, path, req, res, publish, readOnly, logHeadRequests) {	
+exports.handleRequest = function(vpath, path, req, res, readOnly, logHeadRequests) {	
 	// vpath: (optional) virtual path to host in the url
 	// path: the file system path to serve
 	// readOnly: whether to allow modifications to the file
@@ -178,7 +178,6 @@ exports.handleRequest = function(vpath, path, req, res, publish, readOnly, logHe
 					req.on('end', function() {				
 						if(stream.ok) {
 							res.end();
-							publish({ set: relativePath });
 						}
 					});
 					stream.on('error', function(err) { 										
@@ -204,7 +203,6 @@ exports.handleRequest = function(vpath, path, req, res, publish, readOnly, logHe
 							if(err) { writeError(err); } 
 							else {
 								res.end();
-								publish({ remove: relativePath, set: query.rename });
 							}
 						});
 					} else if(query.create == 'directory') { // rename a directory
@@ -214,7 +212,6 @@ exports.handleRequest = function(vpath, path, req, res, publish, readOnly, logHe
 							if(err) { writeError(err); } 
 							else {
 								res.end();
-								publish({ set: query.relativePath });
 							}
 						});
 					} else {
@@ -232,7 +229,6 @@ exports.handleRequest = function(vpath, path, req, res, publish, readOnly, logHe
 									if(err) { writeError(err); }
 									else { 
 										res.end(); 
-										publish({ remove: relativePath });
 									}
 								});
 							} else { // delete a file
@@ -241,7 +237,6 @@ exports.handleRequest = function(vpath, path, req, res, publish, readOnly, logHe
 									if(err) { writeError(err); }
 									else { 
 										res.end(); 
-										publish({ remove: relativePath });
 									}
 								});
 							}

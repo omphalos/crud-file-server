@@ -3,7 +3,6 @@ crud-file-server
 ================
 
 This package exposes a directory and its children to create, read, update, and delete operations over http.
-Additionally, it supports change notification over faye.
 
 Command-line usage
 ==================
