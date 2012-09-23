@@ -175,7 +175,7 @@ exports.handleRequest = function(vpath, path, req, res, readOnly, logHeadRequest
 					var stream = fs.createWriteStream(relativePath);		
 					stream.ok = true;
 					req.pipe(stream); // TODO: limit data length
-					req.on('end', function() {				
+					stream.on('close', function() { 
 						if(stream.ok) {
 							res.end();
 						}
