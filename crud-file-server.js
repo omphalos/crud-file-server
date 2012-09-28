@@ -66,6 +66,11 @@ exports.handleRequest = function(vpath, path, req, res, readOnly, logHeadRequest
 						if(err) { writeError(err); } 
 						else {					
 							res.setHeader('Last-Modified', stats.mtime);		
+							res.setHeader("Expires", "Sat, 01 Jan 2000 00:00:00 GMT");
+							res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+							res.setHeader("Cache-Control", "post-check=0, pre-check=0");
+							res.setHeader("Pragma", "no-cache");
+							
 							if(stats.isDirectory()) {								
 								res.setHeader('Content-Type', query.type == 'json' || query.dir == 'json' ? 'application/json' : 'text/html');
 							} else {
@@ -92,6 +97,10 @@ exports.handleRequest = function(vpath, path, req, res, readOnly, logHeadRequest
 							else {
 								if(stats.isDirectory()) {
 									res.setHeader('Last-Modified', stats.mtime);							
+									res.setHeader("Expires", "Sat, 01 Jan 2000 00:00:00 GMT");
+									res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+									res.setHeader("Cache-Control", "post-check=0, pre-check=0");
+									res.setHeader("Pragma", "no-cache");
 									// if it's a directory, return the files as a JSONified array
 									console.log('reading directory ' + relativePath);
 									fs.readdir(relativePath, function(err, files) {
