@@ -27,7 +27,7 @@ if(!argv.q) {
 var port  = argv.p || 8080;
 var path  = argv.f || process.cwd();
 var vpath = (argv.v || '').trimLeft();
-var readOnly = argv.v;
+var readOnly = argv.r;
 var logHeadRequests = argv.h;
 
 require('http').createServer(function (req, res) {
