@@ -129,7 +129,7 @@ exports.handleRequest = function(vpath, path, req, res, readOnly, logHeadRequest
 														}
 													});
 												} else {
-													if(query.dir == 'json') {
+													if(query.type == 'json' || query.dir == 'json') {
 														res.setHeader('Content-Type', 'application/json');
 														res.write(JSON.stringify(results)); 
 														res.end();
