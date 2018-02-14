@@ -140,7 +140,9 @@ exports.handleRequest = function(vpath, path, req, res, readOnly, logHeadRequest
 															var name = results[f].name;
 															var normalized = url + '/' + name;
 															while(normalized[0] == '/') { normalized = normalized.slice(1, normalized.length); }
-															res.write('\r\n<p><a href="/' + normalized + '">' + name + '</a></p>');
+															if(normalized.indexOf('"') >= 0) throw new Error('unsupported file name')
+															name = name.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+															res.write('\r\n<p><a href="/' + normalized + '"><span>' + name + '</span></a></p>');
 														}
 														res.end('\r\n</body></html>');
 													}
