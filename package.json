@@ -21,5 +21,8 @@
 	"mime": "1.2.7"
   },
   "license": "unlicense",
+  "engine": {
+    "node": ">=0.8.1"
+  },
   "author": "omphalos"
 }
