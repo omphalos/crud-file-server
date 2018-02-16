@@ -3,7 +3,7 @@ var fs = require('fs');
 // don't let users crawl up the folder structure by using a/../../../c/d
 var cleanUrl = function(url) { 
 	url = decodeURIComponent(url);
-	while(url.indexOf('..').length > 0) { url = url.replace('..', ''); }
+	while(url.indexOf('..') >= 0) { url = url.replace('..', ''); }
 	return url;
 };
 
