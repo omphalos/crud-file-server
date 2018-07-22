@@ -79,7 +79,7 @@ exports.handleRequest = function(vpath, path, req, res, readOnly, logHeadRequest
 									res.setHeader('Content-Type', 'application/json');
 								}
 								else {
-									var type = require('mime').lookup(relativePath);
+									var type = require('mime').getType(relativePath);
 									res.setHeader('Content-Type', type);
 									res.setHeader('Content-Length', stats.size);
 								}
@@ -162,12 +162,12 @@ exports.handleRequest = function(vpath, path, req, res, readOnly, logHeadRequest
 											else {
 												res.end(JSON.stringify({ 
 													data: data.toString(),
-													type: require('mime').lookup(relativePath),
+													type: require('mime').getType(relativePath),
 												})); 
 											}
 										});
 									} else {
-										var type = require('mime').lookup(relativePath);
+										var type = require('mime').getType(relativePath);
 										res.setHeader('Content-Type', type);
 										fs.readFile(relativePath, function(err, data) { 
 											if(err) { writeError(err); }
